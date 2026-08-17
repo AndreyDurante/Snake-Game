@@ -136,6 +136,11 @@ const comer_maca = (cobra) =>{
         maca.style.display = "none"
         gerar_posicao_maca()
         maca.style.display = "flex"
+        const cobraAntiga = cobra.map(parte => ({ ...parte }));
+        cobra.push(
+            {x: cobraAntiga[cobra.length -1].x, y: cobraAntiga[cobra.length -1].y}
+        )
+        criar_cobra(cobra)
     }
     
 }
