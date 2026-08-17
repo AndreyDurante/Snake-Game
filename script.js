@@ -209,6 +209,28 @@ botao.addEventListener('click', () => {
     criar_cobra(cobra);
     criar_maca()});
 
+const andar = () => {
+    if (direcao === "direita") {
+        andar_direita(cobra);
+    }
+
+    if (direcao === "esquerda") {
+        andar_esquerda(cobra);
+    }
+
+    if (direcao === "cima") {
+        andar_cima(cobra);
+    }
+
+    if (direcao === "baixo") {
+        andar_baixo(cobra);
+    }
+
+    verificar_limite(cobra);
+};
+
+setInterval(andar, 200)
+
 document.addEventListener("keydown", (evento) => {
 
     if (jogoBloqueado) {
@@ -216,15 +238,21 @@ document.addEventListener("keydown", (evento) => {
     }
     if (evento.key === "ArrowRight") {
         andar_direita(cobra)
+        direcao = "direita";
         verificar_limite(cobra);
     } else if(evento.key === "ArrowDown"){
         andar_baixo(cobra)
+        direcao = "baixo";
+
         verificar_limite(cobra);
     } else if(evento.key === "ArrowLeft"){
         andar_esquerda(cobra)
+        direcao = "esquerda";
+
         verificar_limite(cobra);
     } else if(evento.key === "ArrowUp"){
         andar_cima(cobra)
+         direcao = "cima";
         verificar_limite(cobra);
     }
 });
