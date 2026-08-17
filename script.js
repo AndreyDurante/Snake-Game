@@ -42,20 +42,30 @@ const andar_direita = cobra =>{
         cobra[i].y = cobraAntiga[i - 1].y;
     }
 
+    if (verificar_corpo(cobra)){
+        return;
+    }
+
     criar_cobra(cobra);
 }
 
 const andar_baixo = (cobra) => {
     const cobraAntiga = cobra.map(parte => ({ ...parte }));
 
-    cobra[0].y += 1;
+     cobra[0].y += 1;
 
     for (let i = 1; i < cobra.length; i++) {
         cobra[i].x = cobraAntiga[i - 1].x;
         cobra[i].y = cobraAntiga[i - 1].y;
     }
 
+    if (verificar_corpo(cobra)){
+        return;
+    }
+
     criar_cobra(cobra);
+
+
 };
 
 const andar_esquerda = (cobra) => {
@@ -66,6 +76,10 @@ const andar_esquerda = (cobra) => {
     for (let i = 1; i < cobra.length; i++) {
         cobra[i].x = cobraAntiga[i - 1].x;
         cobra[i].y = cobraAntiga[i - 1].y;
+    }
+
+   if (verificar_corpo(cobra)){
+        return;
     }
 
     criar_cobra(cobra);
@@ -81,8 +95,31 @@ const andar_cima = (cobra) => {
         cobra[i].y = cobraAntiga[i - 1].y;
     }
 
+    if (verificar_corpo(cobra)){
+        return;
+    }
+    
+
     criar_cobra(cobra);
 };
+
+const criar_maca = () => {
+    
+}
+
+const verificar_corpo = (cobra) => {
+    let cabeca = cobra[0]
+    for (let i = 1; i <cobra.length; i++){
+        if (cabeca.x === cobra[i].x &&
+            cabeca.y === cobra[i].y
+        ) {
+            mostrar_erro()
+            tabuleiro.innerHTML = ""
+            return true
+        }
+    }
+    return false
+}
 
 const verificar_limite = cobra => {
     if(
