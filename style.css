@@ -75,3 +75,17 @@
     flex-direction: column;
     font-size: 30px;
 }
+
+.maca {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    border: solid rgb(84, 255, 84) 1px;
+
+}
+
+.maca img{
+    width: 15px;
+    height: 15px;
+}

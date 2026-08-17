@@ -13,10 +13,25 @@ const cobraInicial = [
 let jogoBloqueado = false;
 const botao = document.getElementById("botao")
 const tabuleiro = document.getElementById("tabuleiro")
-const direita = document.getElementById("direita")
+const div_maca = document.getElementById("div-maca")
+const div_cobra = document.getElementById("div-cobra")
+
+
+let macaX = Math.floor(Math.random() * 50)
+let macaY = Math.floor(Math.random() * 25)
+
+let macas_comidas = 0
+const quadrado_maca = document.createElement("div")
+const div_contador_macas = document.getElementById("div-contador-macas")
+const contador_macas = document.createElement("h6")
+contador_macas.textContent = `Maçãs comidas: ${macas_comidas}`
+div_contador_macas.appendChild(contador_macas);
 
 const criar_cobra = (cobra) => {
-    tabuleiro.innerHTML = "";
+    console.log("criar_cobra foi chamada");
+    console.log(div_cobra);
+
+    div_cobra.innerHTML = "";
     cobra.forEach((element, index) => {
         const posicao_horizontal = (element.x * 20)
         const posicao_vertical = (element.y * 20)
@@ -27,7 +42,7 @@ const criar_cobra = (cobra) => {
         quadrado.classList.add("parte-cobra")
         quadrado.style.left = `${posicao_horizontal}px`
         quadrado.style.top = `${posicao_vertical}px`
-        tabuleiro.appendChild(quadrado)
+        div_cobra.appendChild(quadrado)
     });
     
 }
@@ -47,6 +62,7 @@ const andar_direita = cobra =>{
     }
 
     criar_cobra(cobra);
+    comer_maca(cobra);
 }
 
 const andar_baixo = (cobra) => {
@@ -64,7 +80,7 @@ const andar_baixo = (cobra) => {
     }
 
     criar_cobra(cobra);
-
+    comer_maca(cobra);
 
 };
 
@@ -83,6 +99,7 @@ const andar_esquerda = (cobra) => {
     }
 
     criar_cobra(cobra);
+    comer_maca(cobra);
 };
 
 const andar_cima = (cobra) => {
@@ -98,13 +115,36 @@ const andar_cima = (cobra) => {
     if (verificar_corpo(cobra)){
         return;
     }
-    
 
     criar_cobra(cobra);
+    comer_maca(cobra);
 };
 
 const criar_maca = () => {
+    quadrado_maca.classList.add("maca")
+    quadrado_maca.innerHTML = `<img src="./img/images.jpeg" alt="maca">`
+    quadrado_maca.style.left = `${macaX * 20}px`
+    quadrado_maca.style.top = `${macaY * 20}px`
+    div_maca.appendChild(quadrado_maca)
+}
+
+const comer_maca = (cobra) =>{
+    if (cobra[0].x === macaX && cobra[0].y === macaY){
+        const maca = document.getElementsByClassName("maca")[0]
+        macas_comidas += 1
+        contador_macas.textContent = `Maçãs comidas: ${macas_comidas}`
+        maca.style.display = "none"
+        gerar_posicao_maca()
+        maca.style.display = "flex"
+    }
     
+}
+
+const gerar_posicao_maca = () => {
+    macaX = Math.floor(Math.random() * 50)
+    macaY = Math.floor(Math.random() * 25)
+    quadrado_maca.style.left = `${macaX * 20}px`
+    quadrado_maca.style.top = `${macaY * 20}px`
 }
 
 const verificar_corpo = (cobra) => {
@@ -114,7 +154,6 @@ const verificar_corpo = (cobra) => {
             cabeca.y === cobra[i].y
         ) {
             mostrar_erro()
-            tabuleiro.innerHTML = ""
             return true
         }
     }
@@ -129,12 +168,13 @@ const verificar_limite = cobra => {
         cobra[0].y >= 25 
     ) {
         mostrar_erro();
-        tabuleiro.innerHTML = ""
     }
 }
 
 const mostrar_erro = () => {
     jogoBloqueado = true;
+    macas_comidas = 0;
+    contador_macas.textContent = `Maçãs comidas: ${macas_comidas}`;
     cobra = cobraInicial.map(parte => ({ ...parte }));
     const mensagem_erro = document.getElementById("tela-erro")
     const contador = document.getElementById("contador");
@@ -152,12 +192,17 @@ const mostrar_erro = () => {
         if (tempo === 0) {
             mensagem_erro.style.display = "none"
             clearInterval(intervalo);
+            cobra = cobraInicial.map(parte => ({ ...parte }));
+            criar_cobra(cobra)
+            criar_maca()
             jogoBloqueado = false
         }
     }, 1000)
 }
 
-botao.addEventListener('click', () => criar_cobra(cobra));
+botao.addEventListener('click', () => {
+    criar_cobra(cobra);
+    criar_maca()});
 
 document.addEventListener("keydown", (evento) => {
 
