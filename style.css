@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(59, 61, 61);
+}
+
+.titulo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    color: white;
+    font-size: 40px;
+}
+
+#espaco-tabuleiro{
+    height: 85vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tabuleiro {
+    height: 500px;
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:brown;
+    position: relative;
+}
+
+.cabeca{
+    border: solid 2px red;
+}
+
+.parte-cobra{
+    width: 20px;
+    height: 20px;
+    background-color: green;
+    position: absolute;
+    z-index: 5;
+}
+
+#div-botao {
+    height: 200px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#botao {
+    height: 60px;
+    width: 120px;
+    background-color: brown;
+    border-radius: 20px;
+
+}
+
