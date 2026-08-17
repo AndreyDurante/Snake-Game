@@ -1,10 +1,16 @@
-const cobra = [
+let cobra = [
   {x: 5, y: 5},
   {x: 4, y: 5},
   {x: 3, y: 5}
 ]
 
+const cobraInicial = [
+    {x: 5, y: 5},
+    {x: 4, y: 5},
+    {x: 3, y: 5}
+];
 
+let jogoBloqueado = false;
 const botao = document.getElementById("botao")
 const tabuleiro = document.getElementById("tabuleiro")
 const direita = document.getElementById("direita")
@@ -78,18 +84,60 @@ const andar_cima = (cobra) => {
     criar_cobra(cobra);
 };
 
+const verificar_limite = cobra => {
+    if(
+        cobra[0].x < 0 ||
+        cobra[0].y < 0 ||
+        cobra[0].x >= 50 ||
+        cobra[0].y >= 25 
+    ) {
+        mostrar_erro();
+        tabuleiro.innerHTML = ""
+    }
+}
 
+const mostrar_erro = () => {
+    jogoBloqueado = true;
+    cobra = cobraInicial.map(parte => ({ ...parte }));
+    const mensagem_erro = document.getElementById("tela-erro")
+    const contador = document.getElementById("contador");
+
+    mensagem_erro.style.display = "flex"
+
+    let tempo = 3;
+    contador.textContent = tempo
+
+    const intervalo = setInterval(() => {
+        tempo--;
+
+        contador.textContent = tempo;
+
+        if (tempo === 0) {
+            mensagem_erro.style.display = "none"
+            clearInterval(intervalo);
+            jogoBloqueado = false
+        }
+    }, 1000)
+}
 
 botao.addEventListener('click', () => criar_cobra(cobra));
 
 document.addEventListener("keydown", (evento) => {
+
+    if (jogoBloqueado) {
+        return;
+    }
     if (evento.key === "ArrowRight") {
         andar_direita(cobra)
+        verificar_limite(cobra);
     } else if(evento.key === "ArrowDown"){
         andar_baixo(cobra)
+        verificar_limite(cobra);
     } else if(evento.key === "ArrowLeft"){
         andar_esquerda(cobra)
+        verificar_limite(cobra);
     } else if(evento.key === "ArrowUp"){
         andar_cima(cobra)
+        verificar_limite(cobra);
     }
 });
